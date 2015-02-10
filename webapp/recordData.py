@@ -1,10 +1,10 @@
 __author__ = '162049'
 import threading
 import time
-from helpers.logging import *
 from webapp.temperatureStat import GetTemperature
+from webapp.motionDetector import GetMotion
 from django.utils import timezone
-from webapp.models import Temp
+from webapp.models import *
 
 
 class Update(threading.Thread):
@@ -12,6 +12,8 @@ class Update(threading.Thread):
         while True:
             t = Temp(time=timezone.now(), temperature=GetTemperature.temp)
             t.save()
+            m = Motion(time=timezone.now(), motion=GetMotion.motion)
+            m.save()
             time.sleep(1000)
 
 
